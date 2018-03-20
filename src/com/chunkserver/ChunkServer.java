@@ -30,12 +30,16 @@ public class ChunkServer implements ChunkServerInterface {
 		else { //in case of deleted files, we need to make sure a new file is the next sequential one
 			Vector<Long> filenames = new Vector<Long>();
 			for (File f: files) {
-				if (isNumeric(f.getName())) { //for hidden files such as .DS_Store on Mac 
+				if (isNumeric(f.getName())) //for hidden files such as .DS_Store on Mac 
 					filenames.add(Long.valueOf(f.getName()));
-				}
 			}
-			Collections.sort(filenames);
-			counter = filenames.elementAt(filenames.size()-1);
+			
+			if (filenames.size()==0)
+				counter = 0;
+			else {
+				Collections.sort(filenames);
+				counter = filenames.lastElement();
+			}
 		}
 	}
 	
